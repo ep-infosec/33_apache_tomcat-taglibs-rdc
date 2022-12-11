@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+   $Id$
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.apache.taglibs</groupId>
+    <artifactId>taglibs-rdc-parent</artifactId>
+    <version>1.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>taglibs-rdc</artifactId>
+  <packaging>jar</packaging>
+
+  <name>Reusable Dialog Components (RDC) Taglib</name>
+  <description>
+    JSP 2.0 Reusable Dialog Components (RDC) is a framework for creating JSP
+    taglibs that aid in rapid development of voice and multimodal applications.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-scxml</groupId>
+      <artifactId>commons-scxml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-el</groupId>
+      <artifactId>commons-el</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>struts</groupId>
+      <artifactId>struts</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <!-- The TLD is generated to src/main/tld otherwise the taglib plugin
+           picks up an 'unknown' taglib (see <reporting> below), so we have
+           this otherwise redundant resources section -->
+      <resource>
+        <directory>src/main/tld</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>taglibs-rdc.tld</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>.</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>NOTICE.txt</include>
+          <include>LICENSE.txt</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <targetPath>.</targetPath>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <dependencies>
+          <dependency> 
+            <groupId>ant</groupId>
+            <artifactId>ant-trax</artifactId>
+            <version>1.6.5</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>generateTLD</id>
+            <phase>generate-resources</phase>
+            <configuration>
+              <tasks>
+                <xslt in="src/util/rdc.xml"
+                      out="src/main/tld/taglibs-rdc.tld"
+                      style="src/util/tld20.xsl"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generateTLDxdoc</id>
+            <phase>pre-site</phase>
+            <configuration>
+              <tasks>
+                <xslt in="src/util/rdc.xml"
+                      out="src/site/xdoc/tlddoc.xml"
+                      style="src/util/taglibs20-doc.xsl">
+                  <param name="generationtarget" expression="xdoc"/>
+                </xslt>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generateTLDhtml</id>
+            <phase>pre-site</phase>
+            <configuration>
+              <tasks>
+                <xslt in="src/util/rdc.xml"
+                      out="target/site/tlddoc-plain.html"
+                      style="src/util/taglibs20-doc.xsl">
+                  <param name="generationtarget" expression="html"/>
+                </xslt>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>net.sourceforge.maven-taglib</groupId>
+        <artifactId>maven-taglib-plugin</artifactId>
+        <configuration>
+          <taglib.src.dir>src/main/tld</taglib.src.dir>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>
+

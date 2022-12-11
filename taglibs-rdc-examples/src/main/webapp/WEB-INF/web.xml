@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+  http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+ version="2.4">
+<!-- 
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+  <description>Reusable Dialog Components (RDC) Examples</description>
+  <display-name>Reusable Dialog Components (RDC) Test Harness</display-name>
+
+  <context-param>
+    <description>
+    Amazon ECS subscription ID - a mandatory parameter</description>
+    <param-name>com.amazon.ecs.subscriptionId</param-name>
+    <!-- Enter your Amazon Web Services subscription ID in the
+         param-value below before trying the RDC Music Store sample app -->
+    <param-value></param-value>
+  </context-param>
+
+  <filter>
+    <filter-name>RDCFilter</filter-name>
+    <filter-class>org.apache.taglibs.rdc.RDCFilter</filter-class>
+    <init-param>
+      <param-name>platform</param-name>
+      <param-value></param-value>
+    </init-param>
+    <init-param>
+      <param-name>version</param-name>
+      <param-value></param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value></param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>RDCFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>GrammarServlet</servlet-name>
+    <servlet-class>org.apache.taglibs.rdc.GrammarServlet</servlet-class>
+    <init-param>
+      <param-name>jar</param-name>
+      <param-value>/WEB-INF/lib/taglibs-rdc-1.1-SNAPSHOT.jar</param-value>
+    </init-param>
+    <init-param>
+      <param-name>grammarDirectory</param-name>
+      <param-value>.grammar</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GrammarServlet</servlet-name>
+    <url-pattern>/.grammar/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+	<servlet-name>action</servlet-name>
+	<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+	<init-param>
+		<param-name>config</param-name>
+		<param-value>/WEB-INF/struts-config.xml</param-value>
+	</init-param>
+	<init-param>
+		<param-name>debug</param-name>
+		<param-value>2</param-value>
+	</init-param>
+	<init-param>
+		<param-name>detail</param-name>
+		<param-value>2</param-value>
+	</init-param>
+	<init-param>
+		<param-name>validate</param-name>
+		<param-value>true</param-value>
+	</init-param>
+	<load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+	<servlet-name>action</servlet-name>
+	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+  <!-- @generated@ -->
+
+</web-app>

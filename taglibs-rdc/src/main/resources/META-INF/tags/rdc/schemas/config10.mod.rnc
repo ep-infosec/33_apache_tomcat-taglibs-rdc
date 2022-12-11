@@ -1,0 +1,98 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# $Id$
+
+# DTD module for RDC component configuration.
+# This XML structure is used to configure dialog components.
+
+# ===== Root Element =====
+
+# Element  config: Configure dialog components
+
+default namespace = ""
+
+element.config =
+  element config {
+    attlist.config,
+    element.input,
+    element.confirm,
+    element.validate,
+    element.echo,
+    element.custom*
+  }
+attlist.config &= empty
+element.input =
+  element input {
+    attlist.input,
+    element.property-list,
+    element.prompt-list,
+    element.help-list,
+    element.noinput-list,
+    element.nomatch-list
+  }
+attlist.input &= empty
+element.confirm =
+  element confirm {
+    attlist.confirm,
+    element.property-list,
+    element.prompt-list,
+    element.help-list,
+    element.noinput-list,
+    element.nomatch-list,
+    element.reject
+  }
+attlist.confirm &= empty
+element.validate =
+  element validate { attlist.validate, element.handler+ }
+attlist.validate &= empty
+element.echo =
+  element echo {
+    attlist.echo, element.property-list, element.prompt-list
+  }
+attlist.echo &= empty
+element.custom =
+  element custom {
+    attlist.custom,
+    element.property-list,
+    element.prompt-list,
+    element.help-list,
+    element.noinput-list,
+    element.nomatch-list
+  }
+# role       Identify this  custom section's purpose. Used
+# as a selector.
+attlist.custom &= attribute role { text }
+element.handler =
+  element handler { attlist.handler, event.handler.content* }
+attlist.handler &= attribute errorCode { text }
+element.reject =
+  element reject { attlist.reject, event.handler.content* }
+attlist.reject &= empty
+element.property-list =
+  element property-list { attlist.property-list, element.property+ }
+attlist.property-list &= empty
+element.prompt-list =
+  element prompt-list { attlist.prompt-list, element.prompt+ }
+attlist.prompt-list &= empty
+element.help-list =
+  element help-list { attlist.help-list, element.help+ }
+attlist.help-list &= empty
+element.noinput-list =
+  element noinput-list { attlist.noinput-list, element.noinput+ }
+attlist.noinput-list &= empty
+element.nomatch-list =
+  element nomatch-list { attlist.nomatch-list, element.nomatch+ }
+attlist.nomatch-list &= empty

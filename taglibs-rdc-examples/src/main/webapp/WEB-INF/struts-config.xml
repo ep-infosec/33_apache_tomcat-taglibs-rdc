@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC 
+ "-//Apache Software Foundation//DTD Struts Configuration 1.0//EN"
+ "http://jakarta.apache.org/struts/dtds/struts-config_1_0.dtd">
+<struts-config>   
+<!-- 
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<!-- 
+  This struts config is shared by the two sample applications in the
+  RDC taglib distribution, namely:
+  1) The Mortgage sample application
+  2) The MusicStore sample application
+-->
+  <!-- ========== Form Bean Definitions =================================== -->
+  <form-beans>
+
+		<!-- ========== Mortgage sample application form beans ========== -->		
+		<form-bean name="loginForm" type="org.apache.taglibs.rdc.sampleapps.mortgage.struts.LoginBean" />
+		
+		<form-bean name="mortgageForm" type="org.apache.taglibs.rdc.sampleapps.mortgage.struts.MortgageBean" />
+		
+		<form-bean name="proceedForm" type="org.apache.taglibs.rdc.sampleapps.mortgage.struts.ProceedBean" />
+
+		<!-- ========== MusicStore sample application form beans ========== -->	
+		<form-bean name="filterForm" type="org.apache.taglibs.rdc.sampleapps.musicstore.struts.AlbumFilterForm"/>
+
+		<form-bean name="albumForm" type="org.apache.taglibs.rdc.sampleapps.musicstore.struts.IndividualAlbumForm"/>
+	
+		<form-bean name="checkoutForm" type="org.apache.taglibs.rdc.sampleapps.musicstore.struts.CheckoutForm"/>
+
+  </form-beans> 
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+		
+		<!-- ========== Mortgage sample application actions ========== -->
+		<action name="loginForm" path="/login" scope="session" type="org.apache.taglibs.rdc.sampleapps.mortgage.struts.LoginAction">
+			<forward name="mortgage" path="/mortgage-app/mortgage.jsp"/>
+			<forward name="re-login" path="/mortgage-app/login.jsp"/>
+		</action>
+		
+		<action name="mortgageForm" path="/mortgage" scope="session" type="org.apache.taglibs.rdc.sampleapps.mortgage.struts.MortgageAction">
+			<forward name="ok" path="/mortgage-app/mortgage-rate.jsp"/>
+			<forward name="redo" path="/mortgage-app/mortgage.jsp"/>
+		</action>
+		
+		<action name="proceedForm" path="/mortgage-rate" scope="session" type="org.apache.taglibs.rdc.sampleapps.mortgage.struts.ProceedAction">
+			<forward name="ok" path="/mortgage-app/transaction-confirm.jsp"/>
+			<forward name="bye" path="/mortgage-app/goodbye.jsp"/>
+		</action>
+
+		<!-- ========== MusicStore sample application actions ========== -->
+		<action path="/musicstore-app/gui/mainmenu"   forward="/musicstore-app/mainmenu_gui.do"/>
+
+		<action path="/musicstore-app/voice/mainmenu" forward="/musicstore-app/mainmenu_voice.do"/>
+
+		<action path="/musicstore-app/mainmenu_*" type="org.apache.taglibs.rdc.sampleapps.musicstore.struts.MainMenuAction">
+			<forward name="OK" path="/musicstore-app/{1}/mainmenu.jsp"/>
+		</action>
+
+		<action name="filterForm" path="/listalbums_*" type="org.apache.taglibs.rdc.sampleapps.musicstore.struts.AlbumFilterAction" scope="request">
+			<forward name="OK" path="/musicstore-app/{1}/listalbums.jsp"/>
+			<forward name="invalidParams" path="/musicstore-app/{1}/error.jsp"/>
+		</action>
+
+		<action name="albumForm" path="/reviewalbum_*" type="org.apache.taglibs.rdc.sampleapps.musicstore.struts.ReviewAlbumAction" scope="request">
+			<forward name="albumfound" path="/musicstore-app/{1}/reviewalbum.jsp"/>
+			<forward name="notFound" path="/musicstore-app/{1}/error.jsp"/>
+		</action>
+
+		<action path="/showsimilar_*" type="org.apache.taglibs.rdc.sampleapps.musicstore.struts.FindSimilarAction" scope="request">
+			<forward name="OK" path="/musicstore-app/{1}/listalbums.jsp"/>
+			<forward name="onerror" path="/musicstore-app/{1}/error.jsp"/>
+		</action>
+	  
+		<action path="/viewcart_*" forward="/musicstore-app/{1}/reviewcart.jsp" />
+
+		<action path="/help_*" forward="/musicstore-app/{1}/help.jsp" />
+
+		<action path="/addtocart_*" type="org.apache.taglibs.rdc.sampleapps.musicstore.struts.AddToCartAction" scope="request">
+			<forward name="OK" path="/musicstore-app/{1}/reviewcart.jsp" />
+			<forward name="onerror" path="/musicstore-app/{1}/error.jsp" />
+		</action>
+
+		<action name="checkoutForm" path="/checkout_*" type="org.apache.taglibs.rdc.sampleapps.musicstore.struts.CheckoutAction" scope="request">
+			<forward name="goodbye" path="/musicstore-app/{1}/goodbye.jsp" />
+			<forward name="continueshop" path="/musicstore-app/{1}/mainmenu.do" />
+			<forward name="viewcart" path="/musicstore-app/{1}/reviewcart.jsp" />
+			<forward name="onerror" path="/musicstore-app/{1}/error.jsp" />
+		</action>
+
+  </action-mappings>
+</struts-config> 
